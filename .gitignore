@@ -1,0 +1,35 @@
+# 一般的なバイナリファイルを無視
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+*.o
+*.obj
+*.pyc
+*.pyo
+
+# アーカイブファイルを無視
+*.tar.gz
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.tgz
+
+# バックアップファイルを無視
+*.bak
+*.tmp
+*.swp
+
+# IDEの設定やキャッシュを無視（例: VS Code, JetBrains, Eclipse）
+.vscode/
+.idea/
+*.iml
+*.class
+
+# システムによる一時ファイルを無視
+.DS_Store
+Thumbs.db
+
