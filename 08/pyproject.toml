@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "08"
+version = "0.1.0"
+description = ""
+authors = ["mikoto2726 <mikoto27260@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+gunicorn = "^23.0.0"
+whitenoise = "^6.8.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
