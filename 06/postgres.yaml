@@ -1,0 +1,73 @@
+---
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: postgres-config
+  data:
+    POSTGRES_PASSWORD: iniad315
+---
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: postgres-volume
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Mi
+    storageClassName: hostpath
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: postgres
+  spec:
+    replicas: 1
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
+        maxSurge: 0
+    selector:
+      matchLabels:
+        app: postgres
+    template:
+      metadata:
+        name: postgres
+        labels:
+          app: postgres
+      spec:
+        containers:
+          - name: postgres
+            image: postgres:17.1
+            ports:
+              - containerPort: 5432
+            env:
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                  configMapKeyRef:
+                    name: postgres-config
+                    key: POSTGRES_PASSWORD
+              - name: PGDATA
+                value: /data/postgres
+            volumeMounts:
+              - mountPath: /data
+                name: postgres-data
+        volumes:
+          - name: postgres-data
+            persistentVolumeClaim:
+              claimName: postgres-volume
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: postgres
+    labels:
+      app: postgres
+  spec:
+    type: ClusterIP
+    ports:
+      - port: 5432
+    selector:
+      app: postgres
